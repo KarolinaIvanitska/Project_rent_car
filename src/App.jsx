@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 
 // Lazy loading сторінок
@@ -9,7 +9,7 @@ const Favorites = lazy(() => import("./pages/Favorites/Favorites"));
 
 function App() {
   return (
-    <Router>
+    <>
       <Navigation />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
@@ -20,7 +20,7 @@ function App() {
           {/* Перенаправлення на Home для невідомих маршрутів */}
         </Routes>
       </Suspense>
-    </Router>
+    </>
   );
 }
 
