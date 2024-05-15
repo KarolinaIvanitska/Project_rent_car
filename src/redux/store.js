@@ -1,36 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { carReducer } from "./cars/carSlice";
-import { filterReducer } from "./filter/filterSlice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // використовує LocalStorage як сховище за замовчуванням
+import carReducer from "./cars/reducers";
 
+// Конфігурація persist
 const persistConfig = {
-  key: "cars",
-  version: 1,
+  key: "root",
   storage,
-  whiteList: ["token"],
+  whitelist: ["favorites"], // тільки favorites буде збережено у LocalStorage
 };
+
 const persistedReducer = persistReducer(persistConfig, carReducer);
-export const store = configureStore({
-  reducer: {
-    cars: persistedReducer,
-    filter: filterReducer,
-  },
+
+const store = configureStore({
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
 });
 
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+
+export { store, persistor };

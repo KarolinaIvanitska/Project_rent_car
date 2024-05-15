@@ -1,16 +1,17 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { selectCars } from "./cars/carSlice";
-import { selectFilter } from "./filter/filterSlice";
+
+export const selectedCars = (state) => state.cars;
+export const selectFavorites = (state) => state.favorites;
+export const selectFilter = (state) => state.filter;
 
 export const selectFilteredCars = createSelector(
-  [selectCars, selectFilter],
-  (cars, searchStr) => {
-    if (!cars) {
-      return []; // Повертаємо порожній масив, якщо cars є undefined
-    }
-    const search = searchStr.trim().toLowerCase();
+  [selectedCars, selectFilter],
+  (cars, filter) => {
     return cars.filter(
-      (car) => car.make && car.make.toLowerCase().includes(search) // Перевірка на наявність name у car
+      (car) =>
+        car.make.includes(filter.make) &&
+        car.price <= filter.price &&
+        car.mileage <= filter.mileage
     );
   }
 );
