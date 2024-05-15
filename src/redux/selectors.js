@@ -5,10 +5,12 @@ import { selectFilter } from "./filter/filterSlice";
 export const selectFilteredCars = createSelector(
   [selectCars, selectFilter],
   (cars, searchStr) => {
-    if (cars !== undefined) {
-      return cars.filter((car) =>
-        car.name.toLowerCase().includes(searchStr.trim().toLowerCase())
-      );
+    if (!cars) {
+      return []; // Повертаємо порожній масив, якщо cars є undefined
     }
+    const search = searchStr.trim().toLowerCase();
+    return cars.filter(
+      (car) => car.make && car.make.toLowerCase().includes(search) // Перевірка на наявність name у car
+    );
   }
 );

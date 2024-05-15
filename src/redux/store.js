@@ -14,17 +14,16 @@ import { carReducer } from "./cars/carSlice";
 import { filterReducer } from "./filter/filterSlice";
 
 const persistConfig = {
-  key: "auth",
+  key: "cars",
   version: 1,
   storage,
   whiteList: ["token"],
 };
-
+const persistedReducer = persistReducer(persistConfig, carReducer);
 export const store = configureStore({
   reducer: {
-    cars: carReducer,
+    cars: persistedReducer,
     filter: filterReducer,
-    auth: persistReducer(persistConfig, filterReducer),
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
