@@ -1,8 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../config/Api";
 
 // Визначення асинхронної операції для завантаження машин
 export const fetchCars = createAsyncThunk("cars/fetchCars", async () => {
-  const response = await axios.get("/api/cars");
-  return response.data;
+  try {
+    const { data } = await api.get(`cars`);
+    return data;
+  } catch (error) {
+    return api.rejectWithValue(error.message);
+  }
 });

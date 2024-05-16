@@ -1,23 +1,23 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
-import Navigation from "./components/Navigation/Navigation";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
 
 // Lazy loading сторінок
 const Home = lazy(() => import("./pages/Home/Home"));
-const Catalog = lazy(() => import("./pages/Catalog/Catalog"));
+const CarPage = lazy(() => import("./pages/CarPage/CarPage"));
 const Favorites = lazy(() => import("./pages/Favorites/Favorites"));
 
 function App() {
   return (
     <>
-      <Navigation />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/catalog" element={<Catalog />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="*" element={<Home />} />{" "}
-          {/* Перенаправлення на Home для невідомих маршрутів */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/catalog" element={<CarPage />} />
+            <Route path="/favorites" element={<Favorites />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
     </>

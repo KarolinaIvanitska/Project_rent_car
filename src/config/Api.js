@@ -1,15 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://<your-mockapi-io-url>/adverts",
+  baseURL: "https://663e138fe1913c4767966ece.mockapi.io/",
 });
 
-export const fetchCars = () => api.get("/");
-export const fetchCar = (id) => api.get(`/${id}`);
+// export const fetchCars = () => api.get("/");
+// export const fetchCar = (id) => api.get(`/${id}`);
 
-export const setToken = (token) => {
-  api.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-export const clearToken = () => {
-  api.defaults.headers.common.Authorization = ``;
-};
+export default api;
